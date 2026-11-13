@@ -3584,3 +3584,13 @@ works:
     added: 2026-11-13
     summary: "Makes Malfoid art and videos on X, and is working on a Kingdom Hearts fan mod, Harry Potter and the Cornerstone of Light, with Dracaena as the Malfoid character. The mod is in development and has no release yet."
     tags: [art, video, mod, x]
+  - id: "creator-cristotheranger"
+    title: "Nate (CristoTheRanger)"
+    first_name: "Dracaena"
+    kind: [creator, art, comic]
+    creator: "@CristoTheRanger"
+    url: "https://x.com/CristoTheRanger"
+    language: "English"
+    added: 2026-11-13
+    summary: "Makes AI-made Malfoid art and comics on X, with Dracaena in the posts, such as a Thanksgiving story and a wedding date and venue for the couple."
+    tags: [art, comic, ai-art, x]
