@@ -76,6 +76,17 @@ works:
     added: 2026-11-08
     summary: "Anime series on the Galakushi YouTube channel: Malfoid and Harry, episodes 1 to 6 (Diagon Alley, the Hogwarts Express, the Sorting Ceremony) plus a Year 1 opening."
     tags: [anime, series, episodes]
+  - id: "creator-galakushi"
+    title: "Galakushi"
+    first_name: ""
+    kind: [creator, video]
+    creator: "@Galakushi"
+    url: "https://www.youtube.com/@galakushi"
+    also: ["https://x.com/Galakushi", "https://linktr.ee/galakushi"]
+    language: "English"
+    added: 2026-11-15
+    summary: "Makes Malfoid anime on YouTube, including the Malfoid and Harry series (episodes 1 to 6 and a Year 1 opening) and the Malfoid and Harry's wish series. Also on X and Linktree."
+    tags: [anime, video, series, youtube, x]
   - id: "fanfic-dancing-with-malfoy"
     thumb: "https://www.royalroadcdn.com/public/covers-large/196770-dancing-with-malfoy.jpg"
     title: "Dancing with Malfoy"
