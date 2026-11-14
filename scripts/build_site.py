@@ -414,6 +414,32 @@ def build_works():
             return t
         return ""
 
+    def embed_of(w):
+        """An embeddable player for a YouTube video or playlist, or a Rumble embed page. Anything else is left out."""
+        from urllib.parse import urlparse, parse_qs
+        import re
+        u = text(w.get("embed"))
+        if not u.startswith("https://"):
+            return ""
+        p = urlparse(u)
+        host = (p.hostname or "").lower()
+        q = parse_qs(p.query)
+        ok_id = re.compile(r"^[A-Za-z0-9_-]{6,64}$")
+        if host in ("youtube.com", "www.youtube.com", "m.youtube.com"):
+            if p.path == "/watch" and ok_id.match(q.get("v", [""])[0]):
+                src = "https://www.youtube-nocookie.com/embed/" + q["v"][0]
+                if ok_id.match(q.get("list", [""])[0]):
+                    src += "?list=" + q["list"][0]
+                return src
+            if p.path == "/playlist" and ok_id.match(q.get("list", [""])[0]):
+                return "https://www.youtube-nocookie.com/embed/videoseries?list=" + q["list"][0]
+            return ""
+        if host == "youtu.be" and ok_id.match(p.path.strip("/")):
+            return "https://www.youtube-nocookie.com/embed/" + p.path.strip("/")
+        if host == "rumble.com" and p.path.startswith("/embed/"):
+            return "https://rumble.com" + p.path + ("?" + p.query if p.query else "")
+        return ""
+
     works = []
     for w in data.get("works") or []:
         if not isinstance(w, dict) or not text(w.get("title")):
@@ -447,6 +473,7 @@ def build_works():
             "summary": text(w.get("summary")),
             "tags": [text(t) for t in (tags if isinstance(tags, list) else [tags]) if text(t)],
             "thumb": thumb_of(w),
+            "embed": embed_of(w),
             "also": [text(u) for u in (w.get("also") or []) if text(u).startswith(("http://", "https://"))],
             "order": order_of(w.get("order")),
             "length": length_of(w.get("length")),

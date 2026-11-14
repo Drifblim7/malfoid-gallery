@@ -199,6 +199,69 @@
     return h;
   }
 
+  // Every link of a work, and its video or playlist if it has one, behind a "Links and video" button.
+  // Clicking anywhere on the card (except a link or the panel itself) opens it too. The player is only
+  // loaded when the panel is first opened.
+  function addExpander(article, w) {
+    var urls = [];
+    [w.url].concat(w.also || []).forEach(function (u) {
+      var h = safeUrl(u);
+      if (h && urls.indexOf(h) === -1) urls.push(h);
+    });
+    if (!urls.length && !w.embed) return;
+
+    var toggle = el("button", "work-toggle", "Links and video");
+    toggle.type = "button";
+    toggle.setAttribute("aria-expanded", "false");
+    var panel = el("div", "work-panel");
+    panel.hidden = true;
+
+    var list = el("ul", "work-links");
+    urls.forEach(function (href) {
+      var li = el("li");
+      var a = document.createElement("a");
+      a.href = href;
+      a.target = "_blank";
+      a.rel = "noopener";
+      a.textContent = href;
+      a.addEventListener("click", function () { trackOut(href); });
+      li.appendChild(a);
+      list.appendChild(li);
+    });
+    if (urls.length) panel.appendChild(list);
+
+    var player = null;
+    if (w.embed) {
+      player = el("div", "work-player");
+      panel.appendChild(player);
+    }
+
+    var built = false;
+    function setOpen(open) {
+      panel.hidden = !open;
+      toggle.setAttribute("aria-expanded", String(open));
+      toggle.textContent = open ? "Hide links and video" : "Links and video";
+      article.classList.toggle("is-open", open);
+      if (open && player && !built) {
+        built = true;
+        var frame = document.createElement("iframe");
+        frame.src = w.embed;
+        frame.title = w.title || "Video";
+        frame.loading = "lazy";
+        frame.allow = "fullscreen; picture-in-picture";
+        frame.setAttribute("allowfullscreen", "");
+        player.appendChild(frame);
+      }
+    }
+    toggle.addEventListener("click", function () { setOpen(panel.hidden); });
+    article.addEventListener("click", function (ev) {
+      if (ev.target.closest && ev.target.closest("a, button, iframe, .work-panel")) return;
+      setOpen(panel.hidden);
+    });
+    article.appendChild(toggle);
+    article.appendChild(panel);
+  }
+
   function card(w) {
     var article = el("article", "work");
     if (w.thumb) article.appendChild(thumbOf(w.thumb));
@@ -226,6 +289,7 @@
     if (w.summary) article.appendChild(el("p", "work-summary", w.summary));
     var row = platformRow([w.url].concat(w.also || []));
     if (row) article.appendChild(row);
+    addExpander(article, w);
     if (w.items && w.items.length) {
       var more = el("a", "work-more", "See all " + w.items.length + " works →");
       more.href = "#" + encodeURIComponent(w.id);
