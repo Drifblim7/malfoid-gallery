@@ -186,7 +186,9 @@
   function titleOf(w, cls) {
     var h = el("h2");
     var url = safeUrl(w.url);
-    if (url) {
+    // A work with a player opens in its own card (see addExpander), not on its outside page.
+    var hasPlayer = !!(w.embed || (w.videos && w.videos.length));
+    if (url && !hasPlayer) {
       var a = el("a", null, w.title || "Untitled");
       a.href = url;
       a.target = "_blank";
