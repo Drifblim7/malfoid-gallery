@@ -438,7 +438,24 @@ def build_works():
             return "https://www.youtube-nocookie.com/embed/" + p.path.strip("/")
         if host == "rumble.com" and p.path.startswith("/embed/"):
             return "https://rumble.com" + p.path + ("?" + p.query if p.query else "")
+        m = re.match(r"^/(v[a-z0-9]+)-[^/]*\.html$", p.path)
+        if host == "rumble.com" and m:
+            return "https://rumble.com/embed/" + m.group(1) + "/"
         return ""
+
+    def videos_of(w):
+        """The videos listed under `videos:` (Rumble or YouTube links), each with its player address and an episode label."""
+        import re
+        out = []
+        for i, u in enumerate(w.get("videos") or []):
+            u = text(u)
+            src = embed_of({"embed": u})
+            if not src:
+                continue
+            m = re.search(r"s(\d{2})e(\d{2})", u, re.I)
+            label = "Season %d, episode %d" % (int(m.group(1)), int(m.group(2))) if m else "Episode %d" % (i + 1)
+            out.append({"url": u, "embed": src, "label": label})
+        return out
 
     works = []
     for w in data.get("works") or []:
@@ -474,6 +491,7 @@ def build_works():
             "tags": [text(t) for t in (tags if isinstance(tags, list) else [tags]) if text(t)],
             "thumb": thumb_of(w),
             "embed": embed_of(w),
+            "videos": videos_of(w),
             "also": [text(u) for u in (w.get("also") or []) if text(u).startswith(("http://", "https://"))],
             "order": order_of(w.get("order")),
             "length": length_of(w.get("length")),

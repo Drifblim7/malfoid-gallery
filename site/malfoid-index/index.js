@@ -204,11 +204,15 @@
   // loaded when the panel is first opened.
   function addExpander(article, w) {
     var urls = [];
-    [w.url].concat(w.also || []).forEach(function (u) {
+    [w.url].concat(w.also || [], (w.videos || []).map(function (v) { return v.url; })).forEach(function (u) {
       var h = safeUrl(u);
       if (h && urls.indexOf(h) === -1) urls.push(h);
     });
-    if (!urls.length && !w.embed) return;
+    // Players: the work's own video first, then each listed video in order (each loads when the panel opens).
+    var players = [];
+    if (w.embed) players.push({ src: w.embed, label: "" });
+    (w.videos || []).forEach(function (v) { players.push({ src: v.embed, label: v.label || "" }); });
+    if (!urls.length && !players.length) return;
 
     var toggle = el("button", "work-toggle", "Links and video");
     toggle.type = "button";
@@ -230,28 +234,32 @@
     });
     if (urls.length) panel.appendChild(list);
 
-    var player = null;
-    if (w.embed) {
-      player = el("div", "work-player");
-      panel.appendChild(player);
-    }
+    var frames = players.map(function (pl) {
+      var block = el("div", "work-video");
+      if (pl.label) block.appendChild(el("p", "work-video-label", pl.label));
+      var box = el("div", "work-player");
+      block.appendChild(box);
+      panel.appendChild(block);
+      return { src: pl.src, box: box, built: false };
+    });
 
-    var built = false;
     function setOpen(open) {
       panel.hidden = !open;
       toggle.setAttribute("aria-expanded", String(open));
       toggle.textContent = open ? "Hide links and video" : "Links and video";
       article.classList.toggle("is-open", open);
-      if (open && player && !built) {
-        built = true;
+      if (!open) return;
+      frames.forEach(function (f) {
+        if (f.built) return;
+        f.built = true;
         var frame = document.createElement("iframe");
-        frame.src = w.embed;
+        frame.src = f.src;
         frame.title = w.title || "Video";
         frame.loading = "lazy";
         frame.allow = "fullscreen; picture-in-picture";
         frame.setAttribute("allowfullscreen", "");
-        player.appendChild(frame);
-      }
+        f.box.appendChild(frame);
+      });
     }
     toggle.addEventListener("click", function () { setOpen(panel.hidden); });
     article.addEventListener("click", function (ev) {
