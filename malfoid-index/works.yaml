@@ -74,6 +74,15 @@ works:
     creator: "Galakushi"
     url: "https://www.youtube.com/@galakushi"
     added: 2026-11-08
+    videos:
+      - "https://rumble.com/embed/v7g6kfy/?pub=13iafn"
+      - "https://rumble.com/embed/v7g6m6y/?pub=13iafn"
+      - "https://rumble.com/embed/v7g6m7o/?pub=13iafn"
+      - "https://rumble.com/embed/v7g6m96/?pub=13iafn"
+      - "https://rumble.com/embed/v7g6ms0/?pub=13iafn"
+      - "https://rumble.com/embed/v7g6mtg/?pub=13iafn"
+      - "https://rumble.com/embed/v7g6mum/?pub=13iafn"
+      - "https://rumble.com/embed/v7g6mv8/?pub=13iafn"
     summary: "Anime series on the Galakushi YouTube channel: Malfoid and Harry, episodes 1 to 6 (Diagon Alley, the Hogwarts Express, the Sorting Ceremony) plus a Year 1 opening."
     tags: [anime, series, episodes]
   - id: "creator-galakushi"
