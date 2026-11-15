@@ -28,6 +28,18 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "scripts"))
 import miniyaml  # noqa: E402
 
+# Accounts that must not be added to the Malfoid Index: they sell subscriptions to AI-made fan content
+# of Malfoid, which raises rights-holder concerns. Lower-case handles without the @. The build fails if
+# any work's creator, url or `also` link points at one of them. Kept in code only, not published.
+BLOCKED_ACCOUNTS = {
+    "katechon_studio",  # X: promotes a malfoid.tv subscription charging a monthly fee for AI fan content
+}
+# Sites that sell paid access to fan content. A work whose url or `also` link is on one of these
+# domains (or a subdomain of it) fails the build too.
+BLOCKED_DOMAINS = {
+    "malfoid.tv",  # paid subscription service for AI-made fan content of Malfoid and Potter
+}
+
 THUMB_WIDTH = 480
 THUMB_QUALITY = 80
 
@@ -370,10 +382,90 @@ def build_works():
     def text(v):
         return "" if v is None else str(v).strip()
 
+    def handle_from_url(u):
+        from urllib.parse import urlparse
+        seg = urlparse(u).path.strip("/").split("/")[0]
+        return seg.lstrip("@").lower()
+
+    def blocked_handle(w):
+        """The blocked account or domain a work points at (creator, url or also link), or None."""
+        from urllib.parse import urlparse
+        for c in [text(w.get("creator"))] + [text(w.get("url"))] + [text(u) for u in (w.get("also") or [])]:
+            if not c:
+                continue
+            if c.startswith(("http://", "https://")):
+                host = (urlparse(c).hostname or "").lower()
+                for d in BLOCKED_DOMAINS:
+                    if host == d or host.endswith("." + d):
+                        return d
+                h = handle_from_url(c)
+            else:
+                h = c.lstrip("@").lower()
+            if h and h in BLOCKED_ACCOUNTS:
+                return h
+        return None
+
+    def thumb_of(w):
+        """An https image, or a banner file in site/malfoid-index/banners/ (copied with the site)."""
+        t = text(w.get("thumb"))
+        if t.startswith("https://"):
+            return t
+        if t.startswith("banners/") and ".." not in t and os.path.isfile(os.path.join(ROOT, "site", "malfoid-index", t)):
+            return t
+        return ""
+
+    def embed_of(w):
+        """An embeddable player for a YouTube video or playlist, or a Rumble embed page. Anything else is left out."""
+        from urllib.parse import urlparse, parse_qs
+        import re
+        u = text(w.get("embed"))
+        if not u.startswith("https://"):
+            return ""
+        p = urlparse(u)
+        host = (p.hostname or "").lower()
+        q = parse_qs(p.query)
+        ok_id = re.compile(r"^[A-Za-z0-9_-]{6,64}$")
+        if host in ("youtube.com", "www.youtube.com", "m.youtube.com"):
+            if p.path == "/watch" and ok_id.match(q.get("v", [""])[0]):
+                src = "https://www.youtube-nocookie.com/embed/" + q["v"][0]
+                if ok_id.match(q.get("list", [""])[0]):
+                    src += "?list=" + q["list"][0]
+                return src
+            if p.path == "/playlist" and ok_id.match(q.get("list", [""])[0]):
+                return "https://www.youtube-nocookie.com/embed/videoseries?list=" + q["list"][0]
+            return ""
+        if host == "youtu.be" and ok_id.match(p.path.strip("/")):
+            return "https://www.youtube-nocookie.com/embed/" + p.path.strip("/")
+        if host == "rumble.com" and p.path.startswith("/embed/"):
+            return "https://rumble.com" + p.path + ("?" + p.query if p.query else "")
+        m = re.match(r"^/(v[a-z0-9]+)-[^/]*\.html$", p.path)
+        if host == "rumble.com" and m:
+            return "https://rumble.com/embed/" + m.group(1) + "/"
+        return ""
+
+    def videos_of(w):
+        """The videos listed under `videos:` (Rumble or YouTube links), each with its player address and an episode label."""
+        import re
+        out = []
+        for i, u in enumerate(w.get("videos") or []):
+            u = text(u)
+            src = embed_of({"embed": u})
+            if not src:
+                continue
+            m = re.search(r"s(\d{2})e(\d{2})", u, re.I)
+            label = "Season %d, episode %d" % (int(m.group(1)), int(m.group(2))) if m else "Episode %d" % (i + 1)
+            out.append({"url": u, "embed": src, "label": label})
+        return out
+
     works = []
     for w in data.get("works") or []:
         if not isinstance(w, dict) or not text(w.get("title")):
             continue
+        bad = blocked_handle(w)
+        if bad:
+            # Fail the build rather than hide the work: a listed account must not be added or kept.
+            sys.exit("error: %r links to a blocked account or site %r (see BLOCKED_ACCOUNTS and BLOCKED_DOMAINS in scripts/build_site.py)"
+                     % (text(w.get("title")), bad))
         tags = w.get("tags") or []
         # a creator with many works lists them under `items`; the sub page shows these
         items = []
@@ -397,7 +489,9 @@ def build_works():
             "added": text(w.get("added")),
             "summary": text(w.get("summary")),
             "tags": [text(t) for t in (tags if isinstance(tags, list) else [tags]) if text(t)],
-            "thumb": text(w.get("thumb")) if text(w.get("thumb")).startswith("https://") else "",
+            "thumb": thumb_of(w),
+            "embed": embed_of(w),
+            "videos": videos_of(w),
             "also": [text(u) for u in (w.get("also") or []) if text(u).startswith(("http://", "https://"))],
             "order": order_of(w.get("order")),
             "length": length_of(w.get("length")),

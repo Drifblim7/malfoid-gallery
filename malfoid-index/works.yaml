@@ -35,7 +35,7 @@ works:
     thumb: "https://rhedak.github.io/malfoid-gallery/og-banner.jpg"
     title: "Malfoid Gallery"
     first_name: "Draconia"
-    kind: other
+    kind: gallery
     creator: "rhedak"
     url: "https://rhedak.github.io/malfoid-gallery/"
     language: "English"
@@ -74,8 +74,28 @@ works:
     creator: "Galakushi"
     url: "https://www.youtube.com/@galakushi"
     added: 2026-11-08
+    videos:
+      - "https://rumble.com/embed/v7g6kfy/?pub=13iafn"
+      - "https://rumble.com/embed/v7g6m6y/?pub=13iafn"
+      - "https://rumble.com/embed/v7g6m7o/?pub=13iafn"
+      - "https://rumble.com/embed/v7g6m96/?pub=13iafn"
+      - "https://rumble.com/embed/v7g6ms0/?pub=13iafn"
+      - "https://rumble.com/embed/v7g6mtg/?pub=13iafn"
+      - "https://rumble.com/embed/v7g6mum/?pub=13iafn"
+      - "https://rumble.com/embed/v7g6mv8/?pub=13iafn"
     summary: "Anime series on the Galakushi YouTube channel: Malfoid and Harry, episodes 1 to 6 (Diagon Alley, the Hogwarts Express, the Sorting Ceremony) plus a Year 1 opening."
     tags: [anime, series, episodes]
+  - id: "creator-galakushi"
+    title: "Galakushi"
+    first_name: ""
+    kind: [creator, video]
+    creator: "@Galakushi"
+    url: "https://www.youtube.com/@galakushi"
+    also: ["https://x.com/Galakushi", "https://linktr.ee/galakushi"]
+    language: "English"
+    added: 2026-11-15
+    summary: "Makes Malfoid anime on YouTube, including the Malfoid and Harry series (episodes 1 to 6 and a Year 1 opening) and the Malfoid and Harry's wish series. Also on X and Linktree."
+    tags: [anime, video, series, youtube, x]
   - id: "fanfic-dancing-with-malfoy"
     thumb: "https://www.royalroadcdn.com/public/covers-large/196770-dancing-with-malfoy.jpg"
     title: "Dancing with Malfoy"
@@ -1776,14 +1796,14 @@ works:
   - id: "fanfic-harry-potter-and-the-useful-friend"
     title: "Harry Potter and the Useful Friend"
     first_name: ""
-    length: "short"
+    length: "novel"
     kind: fanfic
     creator: "ASKinloch"
     url: "https://www.wattpad.com/story/419121177"
     language: "English"
     added: 2026-11-09
     summary: "Draconia Malfoy is told to befriend Harry Potter because he'll be useful. A first-year canon-adjacent rewrite with female Draco, a slow burn, and plot holes patched."
-    tags: [slowburn, first-year, fix-it, wattpad]
+    tags: [slowburn, first-year, fix-it, wattpad, draconiamalfoid]
   - id: "creator-theexileddraco"
     title: "The Exiled Draco"
     first_name: "Draco"
@@ -1921,6 +1941,17 @@ works:
     summary: "Makes AI-made anime music videos of Somehow I'm The Only Guy At Wizarding School on YouTube."
     also: ["https://x.com/belgianredacted"]
     tags: [video, ai-generated, youtube, x]
+  - id: "audiobook-malfoid-and-the-thief-of-candlelight"
+    title: "Malfoid and the Thief of Candlelight (audiobook)"
+    first_name: ""
+    kind: other
+    creator: "Philmycrakin-5"
+    url: "https://www.youtube.com/playlist?list=PLerWz39X0HRc"
+    language: "English"
+    added: 2026-11-13
+    summary: "An AI-narrated audiobook series on YouTube, in 19 parts of about 10 to 14 minutes each, of a story where Malfoid is the main love interest for Harry. Chapter 2 is titled The Thief of Candlelight."
+    also: ["https://x.com/Darkllamaboy"]
+    tags: [audiobook, series, ai-generated, youtube]
   - id: "creator-philmycrackin"
     title: "Philmycrakin-5"
     first_name: ""
@@ -2468,8 +2499,8 @@ works:
     also: ["https://www.wattpad.com/story/416789252-draconia-malfoy-and-the-boy-who-said-no"]
     language: "English"
     added: 2026-11-10
-    summary: "Free, fully voiced Harry Potter visual novel and dating sim, with a female Draco Malfoy who keeps asking Harry out, across seven years at Hogwarts. Based loosely on the Wattpad story Draconia Malfoy and the Boy Who Said No. Available in 12 languages, English included. The creator's content notes say nothing explicit."
-    tags: [visual-novel, dating-sim, voiced, free, game]
+    summary: "Free Harry Potter visual novel and dating sim (version 2.1.4), with a female Draco Malfoy who keeps asking Harry out, across seven years at Hogwarts. Based loosely on the Wattpad story Draconia Malfoy and the Boy Who Said No. Version 2.0 has 21 chapters, about 61,000 words and 6 to 8 reading hours. The older chapters have 12 languages and voices; the added chapters are English text only. The creator discloses AI-assisted writing, art and synthetic audio. The game contains war violence, deaths and an abusive parent."
+    tags: [visual-novel, dating-sim, ai-assisted, content-warnings, free, game]
   - id: "creator-psyernprodigi"
     title: "Psyern"
     first_name: "Draconia"
@@ -2488,7 +2519,8 @@ works:
     url: "https://malfoid.ninja64.net/"
     language: "English"
     added: 2026-11-10
-    summary: "Community gallery of Draconia images and short clips, with ratings on each item, sorted as a feed. Contents come from several uploaders and were not checked one by one."
+    thumb: "banners/ninja64-draconia.jpg"
+    summary: "A personally curated collection of all Malfoid media, selected for canny likeness to cannon or quality likeness. Thousands of posts curated down to a list of the good stuff, so you don't have to filter out the ai slop. Tv mode, ratings, likes, downloads, chat with her (no logging, no cost, no login, no ads), photo/video/gif filters and many other easter eggs on this site!"
     tags: [gallery, images, video, ratings]
   - id: "site-malfoid-com"
     title: "Malfoid (malfoid.com)"
@@ -2559,16 +2591,6 @@ works:
     language: "English"
     added: 2026-11-10
     summary: "Fan animation listed on malfoid.com."
-    tags: [animation, video, malfoid.com]
-  - id: "video-mf-malfoid-and-harrys-wish-episode-1"
-    title: "Malfoid and Harry’s wish — Episode 1"
-    first_name: ""
-    kind: video
-    creator: "Galakushi"
-    url: "https://www.youtube.com/watch?v=oEZOQl_sask"
-    language: "English"
-    added: 2026-11-10
-    summary: "Galakushi introduces a Malfoid fan series with a 4:59 video titled Malfoid and Harry’s wish — Episode 1."
     tags: [animation, video, malfoid.com]
   - id: "video-mf-say-you-hate-me-fantasoner"
     title: "TS말포이 몰입을 10000% 더 해주는 영상"
@@ -3428,6 +3450,16 @@ works:
         url: "https://x.com/ImmortalSelchie/status/2119558867655045539"
       - title: "NoHorny video (AI video)"
         url: "https://x.com/ImmortalSelchie/status/2116474057994776906"
+      - title: "Darker side, Falling into Obsession (AI video)"
+        url: "https://x.com/ImmortalSelchie/status/2120269034235346946"
+      - title: "Old meme, insults are too good to be mad at (AI video)"
+        url: "https://x.com/ImmortalSelchie/status/2119984275647082689"
+      - title: "Janky but fun to imagine (AI video)"
+        url: "https://x.com/ImmortalSelchie/status/2119984703386288159"
+      - title: "Less funny after hearing it 50 times (AI video)"
+        url: "https://x.com/ImmortalSelchie/status/2119998357309735361"
+      - title: "Yearning, so sweet (AI video)"
+        url: "https://x.com/ImmortalSelchie/status/2120056363447652603"
   - id: "creator-0xwreck"
     title: "Train (0xWreck)"
     first_name: ""
@@ -3484,7 +3516,7 @@ works:
     first_name: ""
     kind: gallery
     creator: "henrik.kekusu+gallery@gmail.com"
-    url: "https://docs.google.com/document/d/13qJ2fBqUdnM4eDfXMs0kP1-hv8b4CtCYAZfzAZphTQM/edit"
+    url: "https://drive.google.com/drive/folders/1ZJJCUN94ASiMJHPohBBbIFv87Z8frDNm?usp=drive_link"
     language: "English"
     added: 2026-11-10
     summary: "Free collection of Malfoid art and memes, open for anyone to contribute. The first batch was shared by JuntahMolokai. Artists who see their work and want credit or removal can contact the email given in the listing."
@@ -3510,6 +3542,68 @@ works:
     tags: [parody, gender-bender, romance, magic, translation]
     first_name: "Carina"
     length: "novel"
+  - id: "creator-catg5835"
+    title: "CatG5835"
+    first_name: ""
+    kind: [creator, video]
+    creator: "@CatG5835"
+    url: "https://www.youtube.com/@%EC%BA%A3%EC%A5%90-n4l"
+    language: "English"
+    added: 2026-11-11
+    summary: "Makes Malfoid animations on YouTube, including the Malfoid Anime Main Story series, Entering Hogwarts and the Female Malfoy anime episode."
+    also: ["https://x.com/CatG5835"]
+    tags: [animation, video, youtube, x]
+  - id: "game-night-of-the-zomfoids"
+    title: "Night of the Zomfoids"
+    first_name: ""
+    kind: game
+    creator: "Kamikazee (@kamikazeeai_art)"
+    url: "https://zomfoids.com/"
+    also: ["https://x.com/kamikazeeai_art"]
+    language: "English"
+    added: 2026-11-12
+    summary: "A free 2D survivor game in the browser and on phone: Harry fights off zombie Malfoids for 10 nights, with Pearl's love potion gone wrong, and cures each one. Sign-in is optional for a ranking."
+    tags: [game, browser, survival, zombies, free]
+  - id: "creator-17bacon"
+    title: "17Bacon"
+    first_name: ""
+    kind: [creator, art]
+    creator: "@The17Bacon"
+    url: "https://x.com/The17Bacon"
+    language: "English"
+    added: 2026-11-12
+    summary: "Makes Malfoid art on X with PixAI, with a fan AU in which the pure-blood Malfoy heiress has no idea what Pocky Day is."
+    tags: [art, ai-art, x]
+  - id: "video-epic-ifs-malfoid-timeline"
+    title: "What If Draco Malfoy Was a Girl? (The Malfoid Timeline) Harry Potter Alternative History"
+    first_name: "Lyra"
+    kind: video
+    creator: "Epic Ifs"
+    url: "https://youtu.be/KDYnYKN1zS4"
+    language: "English"
+    added: 2026-11-13
+    summary: "In this Harry Potter alternate history saga, one change rewrites everything: the Malfoy line needs a son, and Lucius gets a daughter, Lyra, an asset to be married off rather than an heir to be trained."
+    tags: [alternate-history, saga, youtube]
+  - id: "creator-bigcandthebots"
+    title: "Big C And The Bots"
+    first_name: "Dracaena"
+    kind: [creator, art, video]
+    creator: "@BigCAndTheBots"
+    url: "https://x.com/BigCAndTheBots"
+    language: "English"
+    added: 2026-11-13
+    summary: "Makes Malfoid art and videos on X, and is working on a Kingdom Hearts fan mod, Harry Potter and the Cornerstone of Light, with Dracaena as the Malfoid character. The mod is in development and has no release yet."
+    tags: [art, video, mod, x]
+  - id: "creator-cristotheranger"
+    title: "Nate (CristoTheRanger)"
+    first_name: "Dracaena"
+    kind: [creator, art, comic]
+    creator: "@CristoTheRanger"
+    url: "https://x.com/CristoTheRanger"
+    language: "English"
+    added: 2026-11-13
+    summary: "Makes AI-made Malfoid art and comics on X, with Dracaena in the posts, such as a Thanksgiving story and a wedding date and venue for the couple."
+    tags: [art, comic, ai-art, x]
   - id: "Malfoid Fanfic Videos"
     title: "Video Adaptations of Malfoid Fanfics"
     kind: [creator, video, comic, fanfic]
@@ -3518,4 +3612,4 @@ works:
     language: "English"
     added: 2026-11-10
     summary: "Video and comic adaptations of Malfoid fanfiction."
-    tags: [ai-video, romance, humour, malfoid]    
+    tags: [ai-video, romance, humour, malfoid]
