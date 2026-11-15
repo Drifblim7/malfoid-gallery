@@ -186,9 +186,12 @@
   function titleOf(w, cls) {
     var h = el("h2");
     var url = safeUrl(w.url);
-    // A work with a player opens in its own card (see addExpander), not on its outside page.
-    var hasPlayer = !!(w.embed || (w.videos && w.videos.length));
-    if (url && !hasPlayer) {
+    // A work with a player opens its own sub page (see renderVideoPage), not its outside page.
+    if (hasPlayer(w)) {
+      var own = el("a", null, w.title || "Untitled");
+      own.href = "#" + encodeURIComponent(w.id);
+      h.appendChild(own);
+    } else if (url) {
       var a = el("a", null, w.title || "Untitled");
       a.href = url;
       a.target = "_blank";
@@ -348,6 +351,55 @@
     shown.forEach(function (w) { list.appendChild(card(w)); });
   }
 
+  function hasPlayer(w) {
+    return !!(w.embed || (w.videos && w.videos.length));
+  }
+
+  // The sub page for one work with players: its title, links, and every video embedded in order.
+  function renderVideoPage(w) {
+    setControlsHidden(true);
+    document.title = w.title + " · Malfoid Index";
+    var list = document.getElementById("list");
+    var count = document.getElementById("count");
+    list.textContent = "";
+    var back = el("p", "work-back");
+    var backLink = el("a", null, "← All works");
+    backLink.href = "#";
+    back.appendChild(backLink);
+    list.appendChild(back);
+    var n = (w.videos || []).length + (w.embed ? 1 : 0);
+    count.textContent = n + (n === 1 ? " video" : " videos") + " · " + (w.creator || w.title);
+
+    var head = el("article", "work creator-head");
+    var top = el("div", "work-top");
+    (w.kinds || []).forEach(function (k) { top.appendChild(el("span", "kind", KINDS[k] || k)); });
+    head.appendChild(top);
+    head.appendChild(el("h2", null, w.title || "Untitled"));
+    if (w.creator) head.appendChild(el("p", "work-meta", w.creator));
+    if (w.summary) head.appendChild(el("p", "work-summary", w.summary));
+    var row = platformRow([w.url].concat(w.also || []));
+    if (row) head.appendChild(row);
+    list.appendChild(head);
+
+    var players = [];
+    if (w.embed) players.push({ src: w.embed, label: "" });
+    (w.videos || []).forEach(function (v) { players.push({ src: v.embed, label: v.label || "" }); });
+    players.forEach(function (pl) {
+      var block = el("article", "work work-video-page");
+      if (pl.label) block.appendChild(el("p", "work-video-label", pl.label));
+      var box = el("div", "work-player");
+      var frame = document.createElement("iframe");
+      frame.src = pl.src;
+      frame.title = (w.title || "Video") + (pl.label ? " · " + pl.label : "");
+      frame.loading = "lazy";
+      frame.allow = "fullscreen; picture-in-picture";
+      frame.setAttribute("allowfullscreen", "");
+      box.appendChild(frame);
+      block.appendChild(box);
+      list.appendChild(block);
+    });
+  }
+
   // The sub page for a creator with many works: their own entry at the top, then each work.
   function renderCreator(w) {
     setControlsHidden(true);
@@ -392,11 +444,12 @@
     var w = null;
     if (id) {
       data.works.forEach(function (x) {
-        if (!w && x.id === id && x.items && x.items.length) w = x;
+        if (!w && x.id === id && ((x.items && x.items.length) || hasPlayer(x))) w = x;
       });
     }
     if (w) {
-      renderCreator(w);
+      if (w.items && w.items.length) renderCreator(w);
+      else renderVideoPage(w);
       window.scrollTo(0, 0);
     } else {
       showList();
